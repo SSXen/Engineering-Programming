@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User view</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #ldr-value {
+            font-size: 2em;
+            color: #333;
+        }
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome user </h1>
+    <p>Current LDR value:</p>
+    <p id="ldr-value">Loading...</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Sensor ID</th>
+                <th>Light Intensity</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody id="ldr-table-body">
+            <!-- Rows will be added here dynamically -->
+        </tbody>
+    </table>
+
+    <script>
+        let readingNumber = 0;
+
+        async function fetchLdrValue() {
+            try {
+                const response = await fetch('/latest');
+                const data = await response.json();
+                const ldrValue = data.ldr_value !== null ? data.ldr_value : 'No data';
+                document.getElementById('ldr-value').innerText = ldrValue;
+
+                if (data.ldr_value !== null) {
+                    const tableBody = document.getElementById('ldr-table-body');
+                    const newRow = document.createElement('tr');
+
+                    const timeReceived = new Date().toLocaleString();
+
+                    newRow.innerHTML = `
+                        <td>${++readingNumber}</td>
+                        <td>${data.sensor_id || 'Unknown'}</td>
+                        <td>${ldrValue}</td>
+                        <td>${timeReceived}</td>
+                    `;
+
+                    tableBody.appendChild(newRow);
+                }
+            } catch (error) {
+                console.error('Error fetching LDR value:', error);
+            }
+        }
+
+        setInterval(fetchLdrValue, 5000); // Fetch LDR value every 5 seconds
+        fetchLdrValue(); // Initial fetch
+    </script>
+</body>
+</html>
+{% endblock %}

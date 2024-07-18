@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<main>
+  <section>
+    <div class="logContainer">
+      <h1>Register here</h1>
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      {% endwith %}
+      <form action="{{ url_for('register') }}" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <label for="user_type">User Type:</label>
+        <select id="user_type" name="user_type">
+          <option value="admin">Admin</option>
+          <option value="user">User</option>
+        </select>
+        <input type="submit" value="Register">
+      </form>
+    </div>
+  </section>
+</main>
+{% endblock %}
