@@ -4,14 +4,14 @@ from mysql.connector import Error
 from typing import Optional, Dict, Any #mport  typing modules
 
 app = Flask(__name__)
-app.secret_key = 'ZenSign$'
+app.secret_key = '=Zegn=$'
 
 # Database connection
 def get_db_connection():
     connection = mysql.connector.connect(
         host='localhost',
-        user='root',
-        password='ZenSign$',
+        user='',
+        password='',
         database='FloodlightDb'
     )
     return connection
