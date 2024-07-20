@@ -2,8 +2,8 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 
-const char* ssid = "DESKTOP-KCUII6Q 3899";                 // WiFi SSID
-const char* password = "Vk4453-4";                         //WiFi password
+const char* ssid = "";                 // WiFi SSID
+const char* password = "";                         //WiFi password
 //2
 const char* serverUrl = "http://192.168.1.120:8080/data";  //  Flask server URL
 
